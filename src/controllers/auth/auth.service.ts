@@ -4,6 +4,7 @@ import * as bcrypt from 'bcrypt';
 import { classToPlain } from 'class-transformer';
 import { User } from 'src/controllers/users/users.entity';
 import { UsersService } from 'src/controllers/users/users.service';
+import { Session } from '../sessions/sessions.entity';
 
 @Injectable()
 export class AuthService {
@@ -21,11 +22,25 @@ export class AuthService {
   }
 
   async login(user: User) {
+    const refreshToken = this.jwtService.sign(
+      {
+        user: classToPlain(user),
+        sub: user.id,
+      },
+      {
+        expiresIn: '7d',
+      },
+    );
+
+    // TODO: IP Address For Sessions
+    await new Session({ token: refreshToken, user, ip: '127.0.0.1' }).save();
+
     return {
-      access_token: this.jwtService.sign({
+      accessToken: this.jwtService.sign({
         user: classToPlain(user),
         sub: user.id,
       }),
+      refreshToken,
     };
   }
 }
