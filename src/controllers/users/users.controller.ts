@@ -26,7 +26,6 @@ export class UsersController {
   async createUser(
     @Body() user: Partial<User>,
   ): Promise<User | { error: string }> {
-    console.log(user);
     try {
       return await this.usersService.create(new User(user));
     } catch (err) {

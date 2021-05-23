@@ -7,6 +7,7 @@ import {
   Unique,
   BaseEntity,
   ManyToOne,
+  Index,
 } from 'typeorm';
 import { User } from '../users/users.entity';
 
@@ -19,6 +20,7 @@ export class Session extends BaseEntity {
   @IsNotEmpty()
   @Column()
   @IsJWT()
+  @Index()
   token: string;
 
   @ManyToOne(() => User, (user) => user.sessions)

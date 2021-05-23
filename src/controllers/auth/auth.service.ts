@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { classToPlain } from 'class-transformer';
@@ -11,6 +12,7 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly jwtService: JwtService,
+    private configService: ConfigService,
   ) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
@@ -29,6 +31,7 @@ export class AuthService {
       },
       {
         expiresIn: '7d',
+        secret: this.configService.get<string>('JWT_SECRET_REFRESH'),
       },
     );
 
