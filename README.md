@@ -19,6 +19,8 @@ $ npm install
 
 ## Environment
 
+The current required environment variables are found inside `.env.example`
+
 You will need to create an enironment file to get started.
 A config file is loaded based on the exported NODE_ENV, for instance
 if you set your NODE_ENV to `dev` and run this server,
