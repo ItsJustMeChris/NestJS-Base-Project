@@ -1,0 +1,24 @@
+[Unit]
+Description=NestJS Base Project
+Documentation=https://github.com/ItsJustMeChris/NestJS-Base-Project
+After=network.target
+
+[Service]
+Environment=JWT_SECRET=YOUR JWT_SECRET HERE
+Environment=JWT_SECRET_REFRESH=YOUR JWT_SECRET_REFRESH HERE
+Environment=DB_HOST=YOUR DB_HOST HERE
+Environment=DB_NAME=YOUR DB_NAME HERE
+Environment=DB_USER=YOUR DB_USER HERE
+Environment=DB_PASS=YOUR DB_PASS HERE
+Environment=DB_PORT=YOUR DB_PORT HERE
+
+Environment=NODE_ENV=production
+
+Type=simple
+User=root
+WorkingDirectory=PATH TO PROJECT
+ExecStart=npm run start
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

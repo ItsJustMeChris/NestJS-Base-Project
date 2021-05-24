@@ -19,6 +19,8 @@ $ npm install
 
 ## Environment
 
+!! You do `NOT` need to use `.env` 'configuration' files, if you wish to manually `export` variables for example, with a systemd service, there will be no need to create an environment file. If you wish to do this, there's a provided sample systemd service file. 
+
 The current required environment variables are found inside `.env.example`
 
 You will need to create an enironment file to get started.
