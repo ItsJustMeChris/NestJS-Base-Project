@@ -5,7 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { classToPlain } from 'class-transformer';
 import { User } from 'src/controllers/users/users.entity';
 import { UsersService } from 'src/controllers/users/users.service';
-import { Session } from '../sessions/sessions.entity';
+import { RefreshToken } from '../refresh-tokens/refresh-tokens.entity';
 
 @Injectable()
 export class AuthService {
@@ -36,14 +36,28 @@ export class AuthService {
     );
 
     // TODO: IP Address For Sessions
-    await new Session({ token: refreshToken, user, ip: '127.0.0.1' }).save();
+    await new RefreshToken({
+      token: refreshToken,
+      user,
+      ip: '127.0.0.1',
+    }).save();
 
     return {
       accessToken: this.jwtService.sign({
         user: classToPlain(user),
         sub: user.id,
+        refreshToken,
       }),
-      refreshToken,
+    };
+  }
+
+  async refresh(user: User, refreshToken: string) {
+    return {
+      accessToken: this.jwtService.sign({
+        user: classToPlain(user),
+        sub: user.id,
+        refreshToken,
+      }),
     };
   }
 }

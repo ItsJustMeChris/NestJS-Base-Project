@@ -8,7 +8,7 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { Session } from '../sessions/sessions.entity';
+import { RefreshToken } from '../refresh-tokens/refresh-tokens.entity';
 
 @Entity()
 @Unique(['email'])
@@ -30,8 +30,8 @@ export class User extends BaseEntity {
   @IsNotEmpty()
   password: string;
 
-  @OneToMany(() => Session, (session) => session.user)
-  sessions: Session[];
+  @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
+  refreshTokens: RefreshToken[];
 
   constructor(partial: Partial<User>) {
     super();

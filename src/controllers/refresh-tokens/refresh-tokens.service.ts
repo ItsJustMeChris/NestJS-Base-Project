@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
-import { Session } from './sessions.entity';
+import { RefreshToken } from './refresh-tokens.entity';
 
 @Injectable()
-export class SessionService {
+export class RefreshTokensService {
   constructor(
-    @InjectRepository(Session)
-    private sessionRepository: Repository<Session>,
+    @InjectRepository(RefreshToken)
+    private refreshTokenRepository: Repository<RefreshToken>,
   ) {}
 
-  async findByToken(token: string): Promise<Session> {
-    return this.sessionRepository.findOne({
+  async findByToken(token: string): Promise<RefreshToken> {
+    return this.refreshTokenRepository.findOne({
       where: {
         token,
       },
@@ -20,7 +19,7 @@ export class SessionService {
   }
 
   async remove(id: number): Promise<void> {
-    await this.sessionRepository.delete(id);
+    await this.refreshTokenRepository.delete(id);
   }
 
   //   async create(user: Partial<User>): Promise<User> {

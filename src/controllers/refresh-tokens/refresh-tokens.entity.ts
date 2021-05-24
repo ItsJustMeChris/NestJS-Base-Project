@@ -1,5 +1,4 @@
-import { Exclude } from 'class-transformer';
-import { IsEmail, IsIP, IsJWT, IsNotEmpty } from 'class-validator';
+import { IsIP, IsJWT, IsNotEmpty } from 'class-validator';
 import {
   Entity,
   Column,
@@ -13,7 +12,7 @@ import { User } from '../users/users.entity';
 
 @Entity()
 @Unique(['token'])
-export class Session extends BaseEntity {
+export class RefreshToken extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,7 +22,7 @@ export class Session extends BaseEntity {
   @Index()
   token: string;
 
-  @ManyToOne(() => User, (user) => user.sessions)
+  @ManyToOne(() => User, (user) => user.refreshTokens)
   user: User;
 
   @IsNotEmpty()
@@ -31,7 +30,7 @@ export class Session extends BaseEntity {
   @IsIP()
   ip: string;
 
-  constructor(partial: Partial<Session>) {
+  constructor(partial: Partial<RefreshToken>) {
     super();
     Object.assign(this, partial);
   }
