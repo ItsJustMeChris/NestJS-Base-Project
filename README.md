@@ -25,9 +25,11 @@ Recommend using [OTPLib](https://www.npmjs.com/package/otplib) to generate secre
 ## Environment
 
 !! IMPORTANT JWT SECRET NOTES !!
+===
 
 You should use unique JWT secret keys for each type of secret, if you don't then you will be unintentionally authenticating users unintentionally with 2FA tokens or granting long term access tokens unintentionally through renew tokens. 
 
+===
 
 You do `NOT` need to use `.env` 'configuration' files, if you wish to manually `export` variables for example, with a systemd service, there will be no need to create an environment file. If you wish to do this, there's a provided sample systemd service file.
 
