@@ -2,11 +2,13 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { UsersModule } from 'src/controllers/users/users.module';
+import { UsersModule } from 'src/modules/users/users.module';
+import { AuthenticatorsModule } from '../authenticators/authenticators.module';
 import { RefreshTokensModule } from '../refresh-tokens/refresh-tokens.module';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { TwoFactorStrategy } from './strategies/local-2fa.strategy';
 import { LocalStrategy } from './strategies/local.strategy';
 import { RefreshStrategy } from './strategies/refresh.strategy';
 
@@ -15,6 +17,7 @@ import { RefreshStrategy } from './strategies/refresh.strategy';
     UsersModule,
     PassportModule,
     RefreshTokensModule,
+    AuthenticatorsModule,
     ConfigModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
@@ -25,7 +28,13 @@ import { RefreshStrategy } from './strategies/refresh.strategy';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy, RefreshStrategy],
+  providers: [
+    AuthService,
+    LocalStrategy,
+    TwoFactorStrategy,
+    JwtStrategy,
+    RefreshStrategy,
+  ],
   controllers: [AuthController],
 })
 export class AuthModule {}

@@ -6,10 +6,9 @@ import {
   Post,
   UseInterceptors,
 } from '@nestjs/common';
+import { PG_UNIQUE_CONSTRAINT_VIOLATION } from 'src/helpers/types/postgres-errors.types';
 import { User } from './users.entity';
 import { UsersService } from './users.service';
-
-const PG_UNIQUE_CONSTRAINT_VIOLATION = '23505';
 
 @Controller('/users')
 export class UsersController {
@@ -30,7 +29,7 @@ export class UsersController {
       return await this.usersService.create(new User(user));
     } catch (err) {
       if (err && err.code === PG_UNIQUE_CONSTRAINT_VIOLATION) {
-        return { error: 'Already Exists' };
+        return { error: 'Username or Email is Taken' };
       }
     }
   }

@@ -18,6 +18,7 @@ export class UsersService {
   async findByString(key: string): Promise<User> {
     return this.usersRepository.findOne({
       where: `User.username ILIKE '${key.toLocaleLowerCase()}' OR User.email ILIKE '${key.toLocaleLowerCase()}'`,
+      relations: ['authenticators'],
     });
   }
 

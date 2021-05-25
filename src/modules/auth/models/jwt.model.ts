@@ -1,4 +1,4 @@
-import { User } from 'src/controllers/users/users.entity';
+import { User } from 'src/modules/users/users.entity';
 
 export interface RefreshJWT {
   user: Partial<User>;

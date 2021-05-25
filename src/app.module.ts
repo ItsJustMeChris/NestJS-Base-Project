@@ -2,12 +2,14 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { User } from './controllers/users/users.entity';
-import { UsersModule } from './controllers/users/users.module';
-import { AuthModule } from './controllers/auth/auth.module';
+import { User } from './modules/users/users.entity';
+import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RefreshTokensController } from './controllers/refresh-tokens/refresh-tokens.controller';
-import { RefreshToken } from './controllers/refresh-tokens/refresh-tokens.entity';
+import { RefreshTokensController } from './modules/refresh-tokens/refresh-tokens.controller';
+import { RefreshToken } from './modules/refresh-tokens/refresh-tokens.entity';
+import { AuthenticatorsModule } from './modules/authenticators/authenticators.module';
+import { Authenticator } from './modules/authenticators/authenticators.entity';
 
 @Module({
   imports: [
@@ -22,7 +24,7 @@ import { RefreshToken } from './controllers/refresh-tokens/refresh-tokens.entity
         username: configService.get<string>('DB_USER'),
         password: configService.get<string>('DB_PASS'),
         database: configService.get<string>('DB_NAME'),
-        entities: [User, RefreshToken],
+        entities: [User, RefreshToken, Authenticator],
         synchronize: true,
       }),
       imports: [ConfigModule],
@@ -30,6 +32,7 @@ import { RefreshToken } from './controllers/refresh-tokens/refresh-tokens.entity
     }),
     UsersModule,
     AuthModule,
+    AuthenticatorsModule,
   ],
   controllers: [AppController, RefreshTokensController],
   providers: [AppService],

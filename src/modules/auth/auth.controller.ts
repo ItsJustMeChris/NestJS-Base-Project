@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { JWTGuard } from './guards/jwt.guard';
@@ -14,13 +14,37 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Req() req: AuthenticatedRequest) {
-    return this.authService.login(req.user);
+    console.log(req.user);
+    return this.authService.login(req.user, req.ip, req.headers['user-agent']);
+  }
+
+  @UseGuards(AuthGuard('2fa'))
+  @Post('authenticate')
+  async authenticate(
+    @Req() req: AuthorizedRequest<JWT>,
+    @Body() body: { token: string; type: string },
+  ) {
+    console.log(req.user);
+    const authenticatorValid: boolean = await this.authService.authenticate(
+      req.user.user,
+      body.token,
+      body.type,
+    );
+
+    if (authenticatorValid) {
+      return this.authService.login(
+        req.user.user,
+        req.ip,
+        req.headers['user-agent'],
+      );
+    }
+    return { error: null };
   }
 
   @UseGuards(RefreshGuard)
   @Get('refresh')
-  async refresh(@Req() req) {
-    return this.authService.refresh(req.user, req.token);
+  async refresh(@Req() req: AuthorizedRequest<RefreshJWT>) {
+    return this.authService.refresh(req.user.user, req.token);
   }
 
   @UseGuards(RefreshGuard)

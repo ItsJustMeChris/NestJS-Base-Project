@@ -8,6 +8,7 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
+import { Authenticator } from '../authenticators/authenticators.entity';
 import { RefreshToken } from '../refresh-tokens/refresh-tokens.entity';
 
 @Entity()
@@ -32,6 +33,10 @@ export class User extends BaseEntity {
 
   @OneToMany(() => RefreshToken, (refreshToken) => refreshToken.user)
   refreshTokens: RefreshToken[];
+
+  @Exclude()
+  @OneToMany(() => Authenticator, (authenticator) => authenticator.user)
+  authenticators: Authenticator[];
 
   constructor(partial: Partial<User>) {
     super();
