@@ -4,8 +4,8 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { RefreshTokensService } from '../../refresh-tokens/refresh-tokens.service';
-import { RefreshToken } from '../../refresh-tokens/refresh-tokens.entity';
+import { RefreshTokensService } from '../../refresh-tokens/services/refresh-tokens.service';
+import { RefreshToken } from '../../refresh-tokens/models/refresh-tokens.entity';
 import { AuthorizedRequest } from '../models/authorized-request.model';
 import { RefreshJWT } from '../models/jwt.model';
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { RefreshToken } from './refresh-tokens.entity';
+import { RefreshToken } from '../models/refresh-tokens.entity';
 
 @Injectable()
 export class RefreshTokensService {

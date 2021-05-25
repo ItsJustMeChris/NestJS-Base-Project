@@ -3,12 +3,12 @@ import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { classToPlain } from 'class-transformer';
-import { User } from 'src/modules/users/users.entity';
-import { UsersService } from 'src/modules/users/users.service';
-import { Authenticator } from '../authenticators/authenticators.entity';
-import { AuthenticatorsService } from '../authenticators/authenticators.service';
-import { RefreshToken } from '../refresh-tokens/refresh-tokens.entity';
+import { User } from 'src/modules/users/models/users.entity';
+import { UsersService } from 'src/modules/users/services/users.service';
+import { Authenticator } from '../../authenticators/models/authenticators.entity';
+import { RefreshToken } from '../../refresh-tokens/models/refresh-tokens.entity';
 import { authenticator as OTPAuthenticator } from 'otplib';
+import { AuthenticatorsService } from 'src/modules/authenticators/services/authenticators.service';
 
 @Injectable()
 export class AuthService {

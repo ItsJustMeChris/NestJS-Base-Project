@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { User } from './modules/users/users.entity';
+import { User } from './modules/users/models/users.entity';
 import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { RefreshTokensController } from './modules/refresh-tokens/refresh-tokens.controller';
-import { RefreshToken } from './modules/refresh-tokens/refresh-tokens.entity';
+import { RefreshToken } from './modules/refresh-tokens/models/refresh-tokens.entity';
 import { AuthenticatorsModule } from './modules/authenticators/authenticators.module';
-import { Authenticator } from './modules/authenticators/authenticators.entity';
+import { Authenticator } from './modules/authenticators/models/authenticators.entity';
+import { RefreshTokensController } from './modules/refresh-tokens/controllers/refresh-tokens.controller';
 
 @Module({
   imports: [

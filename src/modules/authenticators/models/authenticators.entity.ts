@@ -9,7 +9,7 @@ import {
   Column,
   Index,
 } from 'typeorm';
-import { User } from '../users/users.entity';
+import { User } from '../../users/models/users.entity';
 
 @Entity()
 @Unique(['secret'])
@@ -41,4 +41,24 @@ export class Authenticator extends BaseEntity {
     super();
     Object.assign(this, partial);
   }
+}
+
+export class TCreateAuthenticator {
+  @IsString()
+  @IsNotEmpty()
+  secret: string;
+
+  @IsString()
+  @IsNotEmpty()
+  type: string;
+}
+
+export class TCheckAuthenticator {
+  @IsString()
+  @IsNotEmpty()
+  token: string;
+
+  @IsString()
+  @IsNotEmpty()
+  type: string;
 }

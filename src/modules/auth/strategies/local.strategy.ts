@@ -1,8 +1,8 @@
 import { Strategy } from 'passport-local';
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { AuthService } from '../auth.service';
-import { User } from 'src/modules/users/users.entity';
+import { AuthService } from '../services/auth.service';
+import { User } from 'src/modules/users/models/users.entity';
 import { TwoFactorRequiredException } from '../models/2fa-exception.model';
 import { classToPlain } from 'class-transformer';
 import { ConfigService } from '@nestjs/config';

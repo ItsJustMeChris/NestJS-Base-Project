@@ -1,5 +1,6 @@
+import { OmitType, PartialType, PickType } from '@nestjs/mapped-types';
 import { Exclude } from 'class-transformer';
-import { IsEmail, IsNotEmpty } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 import {
   Entity,
   Column,
@@ -8,8 +9,8 @@ import {
   BaseEntity,
   OneToMany,
 } from 'typeorm';
-import { Authenticator } from '../authenticators/authenticators.entity';
-import { RefreshToken } from '../refresh-tokens/refresh-tokens.entity';
+import { Authenticator } from '../../authenticators/models/authenticators.entity';
+import { RefreshToken } from '../../refresh-tokens/models/refresh-tokens.entity';
 
 @Entity()
 @Unique(['email'])
@@ -42,4 +43,19 @@ export class User extends BaseEntity {
     super();
     Object.assign(this, partial);
   }
+}
+
+// export class TCreateUser extends PartialType(
+//   PickType(User, ['username', 'password', 'email'] as const),
+// ) {}
+
+export class TCreateUser {
+  @IsNotEmpty()
+  username: string;
+
+  @IsEmail()
+  email: string;
+
+  @IsNotEmpty()
+  password: string;
 }

@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AuthenticatorsService } from './authenticators.service';
-import { AuthenticatorsController } from './authenticators.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Authenticator } from './authenticators.entity';
+import { AuthenticatorsController } from './controllers/authenticators.controller';
+import { Authenticator } from './models/authenticators.entity';
+import { AuthenticatorsService } from './services/authenticators.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Authenticator])],
