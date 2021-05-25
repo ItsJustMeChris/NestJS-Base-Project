@@ -8,12 +8,12 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { PG_UNIQUE_CONSTRAINT_VIOLATION } from 'src/helpers/types/postgres-errors.types';
-import { JWTGuard } from '../auth/guards/jwt.guard';
-import { AuthorizedRequest } from '../auth/models/authorized-request.model';
-import { JWT } from '../auth/models/jwt.model';
-import { User } from '../users/users.entity';
-import { Authenticator } from './authenticators.entity';
-import { AuthenticatorsService } from './authenticators.service';
+import { JWTGuard } from 'src/modules/auth/guards/jwt.guard';
+import { AuthorizedRequest } from 'src/modules/auth/models/authorized-request.model';
+import { JWT } from 'src/modules/auth/models/jwt.model';
+import { User } from 'src/modules/users/models/users.entity';
+import { Authenticator } from '../models/authenticators.entity';
+import { AuthenticatorsService } from '../services/authenticators.service';
 
 @Controller('authenticators')
 export class AuthenticatorsController {
