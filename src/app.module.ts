@@ -13,9 +13,7 @@ import { Authenticator } from './modules/authenticators/authenticators.entity';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      envFilePath: `.env.${process.env.NODE_ENV}`,
-    }),
+    ConfigModule,
     TypeOrmModule.forRootAsync({
       useFactory: async (configService: ConfigService) => ({
         type: 'postgres',
