@@ -60,14 +60,14 @@ export class AuthController {
     @Body() body: TCheckAuthenticator,
   ) {
     const authenticatorValid: boolean = await this.authService.authenticate(
-      req.user.user,
+      { id: req.user.sub },
       body.token,
       body.type,
     );
 
     if (authenticatorValid) {
       return this.authService.login(
-        req.user.user,
+        { id: req.user.sub },
         req.ip,
         req.headers['user-agent'],
       );
@@ -76,9 +76,9 @@ export class AuthController {
   }
 
   @UseGuards(RefreshGuard)
-  @Get('refresh')
+  @Post('refresh')
   async refresh(@Req() req: AuthorizedRequest<RefreshJWT>) {
-    return this.authService.refresh(req.user.user, req.token);
+    return this.authService.refresh({ id: req.user.sub });
   }
 
   @UseGuards(RefreshGuard)

@@ -31,7 +31,7 @@ export class AuthService {
   async login(user: Partial<User>, ip: string, userAgent: string) {
     const refreshToken = this.jwtService.sign(
       {
-        user: classToPlain(user),
+        // user: classToPlain(user),
         sub: user.id,
       },
       {
@@ -48,19 +48,18 @@ export class AuthService {
 
     return {
       accessToken: this.jwtService.sign({
-        user: classToPlain(user),
+        // user: classToPlain(user),
         sub: user.id,
-        refreshToken,
       }),
+      refreshToken,
     };
   }
 
-  async refresh(user: Partial<User>, refreshToken: string) {
+  async refresh(user: Partial<User>) {
     return {
       accessToken: this.jwtService.sign({
-        user: classToPlain(user),
+        // user: classToPlain(user),
         sub: user.id,
-        refreshToken,
       }),
     };
   }
