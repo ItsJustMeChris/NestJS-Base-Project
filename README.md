@@ -10,6 +10,7 @@ This is a base project written with NestJS to accelerate project setup and creat
 - Ability to create a new User
 - Ability to login as a User
 - Per environment configuration
+- 2FA Through Authenticators
 
 ## Installation
 
@@ -17,9 +18,13 @@ This is a base project written with NestJS to accelerate project setup and creat
 $ npm install
 ```
 
+## 2FA Notes
+
+Recommend using [OTPLib](https://www.npmjs.com/package/otplib) to generate secrets on the client side.
+
 ## Environment
 
-!! You do `NOT` need to use `.env` 'configuration' files, if you wish to manually `export` variables for example, with a systemd service, there will be no need to create an environment file. If you wish to do this, there's a provided sample systemd service file. 
+!! You do `NOT` need to use `.env` 'configuration' files, if you wish to manually `export` variables for example, with a systemd service, there will be no need to create an environment file. If you wish to do this, there's a provided sample systemd service file.
 
 The current required environment variables are found inside `.env.example`
 
