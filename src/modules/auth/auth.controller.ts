@@ -14,7 +14,6 @@ export class AuthController {
   @UseGuards(AuthGuard('local'))
   @Post('login')
   async login(@Req() req: AuthenticatedRequest) {
-    console.log(req.user);
     return this.authService.login(req.user, req.ip, req.headers['user-agent']);
   }
 
@@ -24,7 +23,6 @@ export class AuthController {
     @Req() req: AuthorizedRequest<JWT>,
     @Body() body: { token: string; type: string },
   ) {
-    console.log(req.user);
     const authenticatorValid: boolean = await this.authService.authenticate(
       req.user.user,
       body.token,
