@@ -21,6 +21,10 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
   async validate(username: string, password: string): Promise<User> {
     const user: User = await this.authService.validateUser(username, password);
 
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
     if (user.authenticators.length > 0) {
       throw new TwoFactorRequiredException({
         error: '2fa',
@@ -38,9 +42,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       });
     }
 
-    if (!user) {
-      throw new UnauthorizedException();
-    }
     return user;
   }
 }
