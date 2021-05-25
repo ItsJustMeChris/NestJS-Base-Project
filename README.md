@@ -25,6 +25,7 @@ Recommend using [OTPLib](https://www.npmjs.com/package/otplib) to generate secre
 ## Environment
 
 !! IMPORTANT JWT SECRET NOTES !!
+
 ===
 
 You should use unique JWT secret keys for each type of secret, if you don't then you will be unintentionally authenticating users unintentionally with 2FA tokens or granting long term access tokens unintentionally through renew tokens. 
