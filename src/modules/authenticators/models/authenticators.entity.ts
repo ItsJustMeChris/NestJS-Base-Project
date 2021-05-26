@@ -19,13 +19,24 @@ export class Authenticator extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  // TODO: Encrypt this value with a secret!
+  @Exclude()
+  @IsString()
+  @IsNotEmpty()
+  @Column()
+  iv: string;
+
   @Exclude()
   @IsString()
   @IsNotEmpty()
   @Column()
   @Index()
   secret: string;
+
+  @Exclude()
+  @IsString()
+  @IsNotEmpty()
+  @Column()
+  recovery: string;
 
   @IsString()
   @IsNotEmpty()
@@ -50,7 +61,15 @@ export class TCreateAuthenticator {
 
   @IsString()
   @IsNotEmpty()
+  recovery: string;
+
+  @IsString()
+  @IsNotEmpty()
   type: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }
 
 export class TCheckAuthenticator {
@@ -61,4 +80,9 @@ export class TCheckAuthenticator {
   @IsString()
   @IsNotEmpty()
   type: string;
+
+  @Exclude()
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }

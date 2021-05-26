@@ -7,6 +7,7 @@ import {
   HttpStatus,
   Post,
   Req,
+  UnauthorizedException,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
@@ -22,12 +23,14 @@ import { RefreshGuard } from '../guards/refresh.guard';
 import { AuthenticatedRequest } from '../models/authenticated-request.model';
 import { AuthorizedRequest } from '../models/authorized-request.model';
 import { JWT, RefreshJWT } from '../models/jwt.model';
+import { AuthenticatorsService } from 'src/modules/authenticators/services/authenticators.service';
 
 @Controller('/auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService,
     private readonly usersService: UsersService,
+    private readonly authenticatorsService: AuthenticatorsService,
   ) {}
 
   @UseGuards(AuthGuard('local'))
@@ -57,13 +60,14 @@ export class AuthController {
   @Post('authenticate')
   async authenticate(
     @Req() req: AuthorizedRequest<JWT>,
-    @Body() body: TCheckAuthenticator,
+    @Body() { token, type, password }: TCheckAuthenticator,
   ) {
-    const authenticatorValid: boolean = await this.authService.authenticate(
-      { id: req.user.sub },
-      body.token,
-      body.type,
-    );
+    const authenticatorValid: boolean =
+      await this.authenticatorsService.authenticate(
+        { id: req.user.sub, password },
+        token,
+        type,
+      );
 
     if (authenticatorValid) {
       return this.authService.login(
@@ -72,7 +76,7 @@ export class AuthController {
         req.headers['user-agent'],
       );
     }
-    return { error: null };
+    throw new UnauthorizedException({ error: null });
   }
 
   @UseGuards(RefreshGuard)

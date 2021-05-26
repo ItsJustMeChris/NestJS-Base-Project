@@ -12,7 +12,10 @@ import { JWTGuard } from 'src/modules/auth/guards/jwt.guard';
 import { AuthorizedRequest } from 'src/modules/auth/models/authorized-request.model';
 import { JWT } from 'src/modules/auth/models/jwt.model';
 import { User } from 'src/modules/users/models/users.entity';
-import { Authenticator } from '../models/authenticators.entity';
+import {
+  Authenticator,
+  TCreateAuthenticator,
+} from '../models/authenticators.entity';
 import { AuthenticatorsService } from '../services/authenticators.service';
 
 @Controller('authenticators')
@@ -24,16 +27,23 @@ export class AuthenticatorsController {
   @Post('create')
   async create(
     @Req() req: AuthorizedRequest<JWT>,
-    @Body() authenticator: Partial<Authenticator>,
+    @Body() { secret, password, type, recovery }: TCreateAuthenticator,
   ) {
     try {
       return await this.authenticatorsService.create(
-        new Authenticator({ ...authenticator, user: <User>req.user.user }),
+        new Authenticator({
+          secret,
+          type,
+          recovery,
+          user: <User>{ id: req.user.sub },
+        }),
+        password,
       );
     } catch (err) {
       if (err && err.code === PG_UNIQUE_CONSTRAINT_VIOLATION) {
         return { error: null };
       }
+      throw err;
     }
   }
 }

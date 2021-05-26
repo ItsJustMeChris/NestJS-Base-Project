@@ -2,20 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
-import { classToPlain } from 'class-transformer';
 import { User } from 'src/modules/users/models/users.entity';
 import { UsersService } from 'src/modules/users/services/users.service';
-import { Authenticator } from '../../authenticators/models/authenticators.entity';
 import { RefreshToken } from '../../refresh-tokens/models/refresh-tokens.entity';
-import { authenticator as OTPAuthenticator } from 'otplib';
 import { AuthenticatorsService } from 'src/modules/authenticators/services/authenticators.service';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly authenticatorsService: AuthenticatorsService,
-    private readonly usersService: UsersService,
-    private readonly jwtService: JwtService,
+    private usersService: UsersService,
+    private jwtService: JwtService,
     private configService: ConfigService,
   ) {}
 
@@ -31,7 +27,6 @@ export class AuthService {
   async login(user: Partial<User>, ip: string, userAgent: string) {
     const refreshToken = this.jwtService.sign(
       {
-        // user: classToPlain(user),
         sub: user.id,
       },
       {
@@ -48,7 +43,6 @@ export class AuthService {
 
     return {
       accessToken: this.jwtService.sign({
-        // user: classToPlain(user),
         sub: user.id,
       }),
       refreshToken,
@@ -58,25 +52,8 @@ export class AuthService {
   async refresh(user: Partial<User>) {
     return {
       accessToken: this.jwtService.sign({
-        // user: classToPlain(user),
         sub: user.id,
       }),
     };
-  }
-
-  async authenticate(user: Partial<User>, token: string, type: string) {
-    const authenticator: Authenticator =
-      await this.authenticatorsService.findByUserType(user, { type });
-
-    if (!authenticator) {
-      return false;
-    }
-
-    const isValid: boolean = OTPAuthenticator.check(
-      token,
-      authenticator.secret,
-    );
-
-    return isValid;
   }
 }
