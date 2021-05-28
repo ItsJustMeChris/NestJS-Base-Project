@@ -11,6 +11,8 @@ This is a base project written with NestJS to accelerate project setup and creat
 - Ability to login as a User
 - Per environment configuration
 - 2FA Through Authenticators
+- HTTP2 Support
+- HTTPS Support
 
 ## In Progress Features
 
