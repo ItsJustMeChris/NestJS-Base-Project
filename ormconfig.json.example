@@ -1,0 +1,19 @@
+{
+   "type": "postgres",
+   "host": "DB_HOST",
+   "port": 5432,
+   "username": "DB_USERNAME",
+   "password": "DB_USERNAME",
+   "database": "DB_NAME",
+   "synchronize": true,
+   "logging": false,
+   "entities": [
+      "dist/modules/**/models/*.js"
+   ],
+   "migrations": [
+      "dist/migrations/**/*.js"
+   ],
+   "cli": {
+      "migrationsDir": "migrations/"
+   }
+}

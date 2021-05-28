@@ -3,9 +3,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { UsersModule } from 'src/modules/users/users.module';
-import { AuthenticatorsModule } from '../authenticators/authenticators.module';
 import { RefreshTokensModule } from '../refresh-tokens/refresh-tokens.module';
 import { AuthController } from './controllers/auth.controller';
+import { PermissionsGuard } from './guards/permissions.guard';
 import { AuthService } from './services/auth.service';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { TwoFactorStrategy } from './strategies/local-2fa.strategy';
@@ -17,7 +17,6 @@ import { RefreshStrategy } from './strategies/refresh.strategy';
     UsersModule,
     PassportModule,
     RefreshTokensModule,
-    AuthenticatorsModule,
     ConfigModule,
     JwtModule.registerAsync({
       useFactory: async (configService: ConfigService) => ({
@@ -34,7 +33,9 @@ import { RefreshStrategy } from './strategies/refresh.strategy';
     TwoFactorStrategy,
     JwtStrategy,
     RefreshStrategy,
+    PermissionsGuard,
   ],
   controllers: [AuthController],
+  exports: [PermissionsGuard, AuthService],
 })
 export class AuthModule {}

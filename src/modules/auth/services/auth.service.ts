@@ -5,7 +5,6 @@ import * as bcrypt from 'bcrypt';
 import { User } from 'src/modules/users/models/users.entity';
 import { UsersService } from 'src/modules/users/services/users.service';
 import { RefreshToken } from '../../refresh-tokens/models/refresh-tokens.entity';
-import { AuthenticatorsService } from 'src/modules/authenticators/services/authenticators.service';
 
 @Injectable()
 export class AuthService {
@@ -44,6 +43,7 @@ export class AuthService {
     return {
       accessToken: this.jwtService.sign({
         sub: user.id,
+        permissions: ['unknown'],
       }),
       refreshToken,
     };

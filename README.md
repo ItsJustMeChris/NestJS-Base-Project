@@ -12,6 +12,11 @@ This is a base project written with NestJS to accelerate project setup and creat
 - Per environment configuration
 - 2FA Through Authenticators
 
+## In Progress Features
+
+- JWT Revocation
+- Permissions management
+
 ## Installation
 
 ```bash
@@ -28,7 +33,7 @@ Recommend using [OTPLib](https://www.npmjs.com/package/otplib) to generate secre
 
 ===
 
-You should use unique JWT secret keys for each type of secret, if you don't then you will be unintentionally authenticating users unintentionally with 2FA tokens or granting long term access tokens unintentionally through renew tokens. 
+You should use unique JWT secret keys for each type of secret, if you don't then you will be unintentionally authenticating users unintentionally with 2FA tokens or granting long term access tokens unintentionally through renew tokens.
 
 ===
 
