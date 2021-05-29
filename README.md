@@ -76,7 +76,7 @@ As we see in this example, the user must have permission to:
 ```ts
   // Include the PermissionGuard as a decorator for a controller route.
   @UseGuards(PermissionsGuard)
-  // Supply a single permission with a model and the allowances required for the route.
+  // Supply multiple permissions with a model and the allowances to be AND'd together and required for the route.
   @Permissions({
     model: 'authenticators',
     allowances: PERMISSION.CREATE,
@@ -98,7 +98,7 @@ As we see in this example, the user must have permission to:
 ```ts
   // Include the PermissionGuard as a decorator for a controller route.
   @UseGuards(PermissionsGuard)
-  // Supply a single permission with a model and the allowances required for the route.
+  // Supply multiple permissions with a model and the allowances to be OR'd together and required for the route.
   @Permissions([
       {
         model: 'authenticators',
@@ -124,7 +124,7 @@ As we see in this example, the user must have permission to:
 ```ts
   // Include the PermissionGuard as a decorator for a controller route.
   @UseGuards(PermissionsGuard)
-  // Supply a single permission with a model and the allowances required for the route.
+  // Supply multiple permissions with a model and the allowances to be OR'd together and a set of permissions that're AND'd with those, to be required for the route.
   @Permissions([
       {
         model: 'authenticators',
