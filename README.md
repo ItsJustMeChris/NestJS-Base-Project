@@ -167,8 +167,11 @@ if you set your NODE_ENV to `dev` and run this server,
 it will look for the config file `.env.dev`
 
 Start Scripts map to these env files.
+
 `npm run start:dev` -> `.env.dev`
+
 `npm run start:debug` -> `.env.debug`
+
 `npm run start:prod` -> `.env.production`
 
 ## Running the app
