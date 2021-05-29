@@ -29,6 +29,122 @@ $ npm install
 
 Recommend using [OTPLib](https://www.npmjs.com/package/otplib) to generate secrets on the client side.
 
+## Using Permissions
+
+Permissions are Bit Packed integers ranging from 0 to 1111, there's a helper enum `PERMISSION` containing the following.
+
+```ts
+export enum PERMISSION {
+  NONE = 0,
+
+  CREATE = 1,
+  READ = 10,
+  UPDATE = 100,
+  DELETE = 1000,
+
+  ANY = 1111,
+}
+```
+
+Here's an example of using permissions to Guard the create route with the CREATE permission level.
+
+As we see in this example, the user must have permission to:
+
+- Create authenticators
+
+```ts
+  // Include the PermissionGuard as a decorator for a controller route.
+  @UseGuards(PermissionsGuard)
+  // Supply a single permission with a model and the allowances required for the route.
+  @Permissions({
+    model: 'authenticators',
+    allowances: PERMISSION.CREATE,
+  })
+  @Post('create')
+  async create() {}
+```
+
+You can guard routes with multiple permissions, for example if we wanted to allow some admins to be able to manage a Users Authenticators, we'd want to make sure they can Update Users and Create Authenticators
+
+As we see in this example, the user must have permission to:
+
+- Create authenticators
+- Update users
+
+```ts
+  // Include the PermissionGuard as a decorator for a controller route.
+  @UseGuards(PermissionsGuard)
+  // Supply a single permission with a model and the allowances required for the route.
+  @Permissions({
+    model: 'authenticators',
+    allowances: PERMISSION.CREATE,
+  },
+  {
+    model: 'users',
+    allowances: PERMISSION.UPDATE,
+  })
+  @Post('create')
+  async create() {}
+```
+
+Alternatively if we wish to guard a route and allow variable permissions, but not require them all, we can pass the permissions as an array.
+
+As we see in this example, the user must have permission to:
+
+- Create authenticators OR Update users
+
+```ts
+  // Include the PermissionGuard as a decorator for a controller route.
+  @UseGuards(PermissionsGuard)
+  // Supply a single permission with a model and the allowances required for the route.
+  @Permissions([
+      {
+        model: 'authenticators',
+        allowances: PERMISSION.CREATE,
+      },
+      {
+        model: 'users',
+        allowances: PERMISSION.UPDATE,
+      }
+  ])
+  @Post('create')
+  async create() {}
+```
+
+And lastly if we wish to validate that a route had any of a group of permissions, AND any other permissions, we just add them to the decorator as full objects, as we did in the first examples.
+
+As we see in this example, the user must have permission to:
+
+- Create authenticators OR Update users
+- UPDATE management
+- READ administrative
+
+```ts
+  // Include the PermissionGuard as a decorator for a controller route.
+  @UseGuards(PermissionsGuard)
+  // Supply a single permission with a model and the allowances required for the route.
+  @Permissions([
+      {
+        model: 'authenticators',
+        allowances: PERMISSION.CREATE,
+      },
+      {
+        model: 'users',
+        allowances: PERMISSION.UPDATE,
+      }
+  ],
+  {
+    model: 'management',
+    allowances: PERMISSION.UPDATE,
+  },
+  {
+    model: 'administrative',
+    allowances: PERMISSION.READ,
+  })
+  @Post('create')
+  async create() {}
+```
+
 ## Environment
 
 !! IMPORTANT JWT SECRET NOTES !!

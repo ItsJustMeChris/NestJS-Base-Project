@@ -9,10 +9,15 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { Bits } from 'src/helpers/functions/pack';
 import { PG_UNIQUE_CONSTRAINT_VIOLATION } from 'src/helpers/types/postgres-errors.types';
 import { Permissions } from 'src/modules/auth/decorators/permissions.decorator';
 import { JWTGuard } from 'src/modules/auth/guards/jwt.guard';
-import { PermissionsGuard } from 'src/modules/auth/guards/permissions.guard';
+import {
+  Permission,
+  PERMISSION,
+  PermissionsGuard,
+} from 'src/modules/auth/guards/permissions.guard';
 import { AuthorizedRequest } from 'src/modules/auth/models/authorized-request.model';
 import { JWT } from 'src/modules/auth/models/jwt.model';
 import { AuthService } from 'src/modules/auth/services/auth.service';
@@ -56,7 +61,18 @@ export class AuthenticatorsController {
 
   @UseInterceptors(ClassSerializerInterceptor)
   @UseGuards(JWTGuard, PermissionsGuard)
-  @Permissions('unknown')
+  @Permissions(
+    {
+      model: 'authenticators',
+      allowances: PERMISSION.CREATE,
+    },
+    [
+      {
+        model: 'authenticators',
+        allowances: PERMISSION.UPDATE,
+      },
+    ],
+  )
   @Post('create')
   async create(
     @Req() req: AuthorizedRequest<JWT>,
