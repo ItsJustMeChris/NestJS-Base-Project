@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
+import * as pkg from '../package.json';
+
 @Injectable()
 export class AppService {
   constructor(private configService: ConfigService) {}
@@ -8,8 +10,8 @@ export class AppService {
   index() {
     return {
       server: {
-        api: 'NestJS Base',
-        version: '0.1.0',
+        api: pkg.name,
+        version: pkg.version,
         serverTime: new Date(),
       },
       config: {
