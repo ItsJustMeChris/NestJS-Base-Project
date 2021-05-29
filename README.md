@@ -29,6 +29,7 @@ $ npm install
 ## 2FA Notes
 
 Recommend using [OTPLib](https://www.npmjs.com/package/otplib) to generate secrets on the client side.
+Otherwise, see the [Secret-Requirements](https://www.npmjs.com/package/otplib#difference-between-authenticator-and-totp)
 
 ## Using Permissions
 
