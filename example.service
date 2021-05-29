@@ -17,6 +17,8 @@ Environment=DB_NAME=YOUR DB_NAME HERE
 Environment=DB_USER=YOUR DB_USER HERE
 Environment=DB_PASS=YOUR DB_PASS HERE
 Environment=DB_PORT=YOUR DB_PORT HERE
+Environment=DB_SYNC=true
+Environment=DB_MIGRATE=false
 
 Environment=NODE_ENV=production
 

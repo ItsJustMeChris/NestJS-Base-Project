@@ -13,6 +13,7 @@ This is a base project written with NestJS to accelerate project setup and creat
 - 2FA Through Authenticators
 - HTTP2 Support
 - HTTPS Support
+- Database Migrations
 
 ## In Progress Features
 
